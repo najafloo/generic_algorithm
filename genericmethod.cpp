@@ -20,6 +20,7 @@ char _mutated_genes()
 {
     int len = static_cast<int>(_GENES.size());
     int r = _random_num(0, len-1);
+    cout<< "== Mutation ==" << _GENES[r] << endl;
     return _GENES[r];
 }
 

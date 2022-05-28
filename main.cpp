@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 #include "genericmethod.cpp"
 #include "multiagentoptimizer.h"
-#include "utils.h"
+#include "Utils.h"
 
 using namespace std;
 
@@ -60,9 +60,9 @@ void calcSampleGen()
             new_generation.push_back(offspring);
         }
         population = new_generation;
-        cout<< "Generation: " << generation << "\t";
-        cout<< "String: "<< population[0].chromosome <<"\t";
-        cout<< "Fitness: "<< population[0].fitness << "\n";
+//        cout<< "Generation: " << generation << "\t";
+//        cout<< "String: "<< population[0].chromosome <<"\t";
+//        cout<< "Fitness: "<< population[0].fitness << "\n";
 
         generation++;
     }
