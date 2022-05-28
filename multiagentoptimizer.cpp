@@ -36,7 +36,7 @@ void MultiAgentOptimizer::optimize() {
         string gnome = create_gnome(m_dimensions);
         if(DEBUG_MODE) cout << gnome << " , ";
         printVector(mapVector(gnome));
-        population.push_back(Portfolio(gnome, m_dimensions, m_markowitz_portfolio));
+        population.push_back(Portfolio(gnome, m_markowitz_portfolio));
     }
 
     int iteration = 1000;//static_cast<int>(m_number_iterations);

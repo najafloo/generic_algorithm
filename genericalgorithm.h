@@ -15,10 +15,9 @@ class Portfolio
 public:
     string chromosome;
     double fitness;
-    std::size_t len;
     std::shared_ptr<MarkowitzPortfolio> markowitz_portfolio;
 
-    Portfolio(string, std::size_t, std::shared_ptr<MarkowitzPortfolio>);
+    Portfolio(string, std::shared_ptr<MarkowitzPortfolio>);
     Portfolio crossover(Portfolio parent2);
     double fitness_calculation(vector<double>);
 };

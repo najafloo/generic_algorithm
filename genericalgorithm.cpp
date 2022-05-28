@@ -94,12 +94,11 @@ double totalElements(vector<double> vec)
     return sum;
 }
 
-Portfolio::Portfolio(string chromosome, std::size_t len, std::shared_ptr<MarkowitzPortfolio> markowitz_portfolio)
+Portfolio::Portfolio(string chromosome, std::shared_ptr<MarkowitzPortfolio> markowitz_portfolio)
 {
     this->chromosome = chromosome;
-    this->len = len;
     this->markowitz_portfolio = markowitz_portfolio;
-        fitness = fitness_calculation(mapVector(chromosome));
+    fitness = fitness_calculation(mapVector(chromosome));
 
 //    if(totalElements(mapVector(chromosome)) == 1.0)
 //    {
@@ -108,12 +107,12 @@ Portfolio::Portfolio(string chromosome, std::size_t len, std::shared_ptr<Markowi
 };
 
 // Overloading < operator so that can sort items
-bool operator<(const Portfolio &porf1, const Portfolio &porf2)
+bool operator<(const Portfolio &portfolio1, const Portfolio &portfolio2)
 {
-    return porf1.fitness < porf2.fitness;
+    return portfolio1.fitness < portfolio2.fitness;
 }
 
-// crossover and generate new children
+// Merge and generate new children
 Portfolio Portfolio::crossover(Portfolio other_portfolio)
 {
     // Child chromosome
@@ -140,7 +139,7 @@ Portfolio Portfolio::crossover(Portfolio other_portfolio)
     }
 
     // Generate new Portfolio as new children using from generated chromosome
-    return Portfolio(child_chromosome, this->len, this->markowitz_portfolio);
+    return Portfolio(child_chromosome, this->markowitz_portfolio);
 };
 
 // Calculate fitness score and زheck that
