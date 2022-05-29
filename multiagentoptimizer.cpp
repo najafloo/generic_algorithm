@@ -25,6 +25,21 @@ void MultiAgentOptimizer::optimize() {
 
     srand(static_cast<unsigned>(time(0)));
 
+    /*for(int i = 0; i < static_cast<int>(m_number_agents); i++)
+    {
+    string gen = genarateNewValidGnome(m_dimensions);
+
+    cout << "============= gen = " << gen << endl;
+
+        vector<double> vec = m_best_solution = mapVector(gen);
+        printVector(vec);
+
+        double sum1 = totalElements(m_best_solution);
+
+        cout << "sum = " << sum1 << endl;
+
+    }
+    return;*/
     // Generation number
     int generation = 0;
 
@@ -33,7 +48,7 @@ void MultiAgentOptimizer::optimize() {
     // Initial population
     for(int i = 0; i < static_cast<int>(m_number_agents); i++)
     {
-        string gnome = create_gnome(m_dimensions);
+        string gnome = genarateNewValidGnome(8);//m_dimensions);
         if(DEBUG_MODE) cout << gnome << " , ";
         printVector(mapVector(gnome));
         population.push_back(Portfolio(gnome, m_markowitz_portfolio));
@@ -61,8 +76,8 @@ void MultiAgentOptimizer::optimize() {
         //10% of fittest population goes to the next generation
         int s = (10 * m_number_agents) / 100;
 
-//        cout << "population = ";
-//        printPopulation(population);
+        cout << "population = ";
+        printPopulation(population);
 
         for(int i = 0; i < s; i++)
             new_generation.push_back(population[static_cast<unsigned>(i)]);

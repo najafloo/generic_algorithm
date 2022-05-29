@@ -32,6 +32,8 @@ int random_num(int, int);
 double totalElements(vector<double>);
 void printPopulation(vector<Portfolio>);
 
+unsigned findFirstEmptyCell(string gnome, int n_th);
+string genarateNewValidGnome(int len);
 }
 
 #endif // GENERICALGORITHM_H

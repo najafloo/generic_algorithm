@@ -61,6 +61,66 @@ string create_gnome(std::size_t len)
     return gnome;
 }
 
+unsigned findFirstEmptyCell(string gnome, int index)
+{
+    int empty_index = 0;
+
+    for(unsigned i = 0; i < gnome.size(); i++)
+    {
+        if(gnome[i] == '0')
+        {
+            if(empty_index == index)
+                return i;
+
+            empty_index++;
+
+        }
+    }
+
+    return 0;
+}
+
+string genarateNewValidGnome(int len)
+{
+    string gnome(static_cast<unsigned>(len), '0');
+    double sum = 0.0;
+
+    do{
+        string g(static_cast<unsigned>(len), '0');
+        gnome = g;
+        sum = 0.0;
+        int iteration = 0;
+        int max_space = static_cast<int>(GENES.length()) - 1;
+
+        cout << "0 ==== max_space = " << max_space << endl;
+
+        while (iteration < len - 1)
+        {
+            int random_index = random_num(0, len - iteration - 1);
+            cout << "1 ==== random index = " << random_index << ", max range for index = " << (len - iteration - 1) << endl;
+            int remained_space = ((1.0 - sum) >= 0.3)? max_space : (1.0 - sum) * 100.0;
+            cout << "2 ==== remained_space = " << remained_space << ", 1 - sum = " << ( 1.0 - sum ) << endl;
+
+            unsigned index = findFirstEmptyCell(gnome, random_index);
+            int random_value = random_num(0, remained_space);
+
+
+            char random_char = GENES[static_cast<unsigned>(random_value)];
+            gnome[index] = random_char;
+            cout << "3 ==== random_value = " << random_value << ", random_char = " << random_char << ", mapToDigit(random_char) = " << mapToDigit(random_char) << ", gnome = " << gnome << endl;
+            sum += mapToDigit(random_char);
+            iteration++;
+        }
+        unsigned lastEmptyIndex = findFirstEmptyCell(gnome, 0);
+        gnome[lastEmptyIndex] = GENES[static_cast<unsigned>((1.0 - sum) * 100)];
+
+        if(sum != 1.0) cout << "RRRRRRRRREJECTTTTTTTTTTTTTTtED sum = " << sum << ", gnome = " << gnome << endl;
+
+    } while (sum != 1.0);
+
+    return gnome;
+}
+
 // map characters to their values
 // Example: 'A' -> 0.0 , 'B' -> 0.1 , ... , 'a' -> 0.26 , b -> 'b'
 double mapToDigit(char ch)
@@ -100,10 +160,10 @@ Portfolio::Portfolio(string chromosome, std::shared_ptr<MarkowitzPortfolio> mark
     this->markowitz_portfolio = markowitz_portfolio;
     fitness = fitness_calculation(mapVector(chromosome));
 
-//    if(totalElements(mapVector(chromosome)) == 1.0)
-//    {
-//        fitness = fitness_calculation(mapVector(chromosome));
-//    }
+    //    if(totalElements(mapVector(chromosome)) == 1.0)
+    //    {
+    //        fitness = fitness_calculation(mapVector(chromosome));
+    //    }
 };
 
 // Overloading < operator so that can sort items
@@ -120,10 +180,12 @@ Portfolio Portfolio::crossover(Portfolio other_portfolio)
 
     unsigned len = chromosome.size();
 
+    int index = random_num(0, 7);
+
     for(unsigned i = 0; i < len; i++)
     {
         // random probability
-        float p = random_num(0, 100) / 100;
+        /*float p = random_num(0, 100) / 100;
 
         // if p is less than 0.45, get gene from parent 1
         if(p < 0.30f)
@@ -135,7 +197,13 @@ Portfolio Portfolio::crossover(Portfolio other_portfolio)
 
         // otherwise insert random mutation gene
         else
-            child_chromosome += mutated_genes();
+            child_chromosome += mutated_genes();*/
+
+
+        if(i < index)
+            child_chromosome += chromosome[i];
+        else
+            child_chromosome += other_portfolio.chromosome[i];
     }
 
     // Generate new Portfolio as new children using from generated chromosome
@@ -151,8 +219,8 @@ double Portfolio::fitness_calculation(vector<double> assets)
 
     fitness = markowitz_portfolio->evaluate_objective(assets);
 
-        if(sum != 1.0)
-//    if(sum <= 0.9 || sum >= 1.1)
+    if(sum != 1.0)
+        //    if(sum <= 0.9 || sum >= 1.1)
         fitness = 0.0;
 
     return fitness;
